@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<phonebook>
+  <note>
+    <name>Egor</name>
+    <phone>380234564545</phone>
+  </note>
+
+  <note>
+    <name>Oleg</name>
+    <phone>380485561212</phone>
+  </note>
+
+  <note>
+    <name>Vasia</name>
+    <phone>380571517745</phone>
+  </note>
+
+  <note>
+    <name>Dusia</name>
+    <phone>380504570332</phone>
+  </note>
+    
+</phonebook>

@@ -1,0 +1,28 @@
+﻿<Window x:Class="_5_3_Phonebook.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_5_3_Phonebook"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="400">
+    <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Horizontal">
+            <Button x:Name="Open_Button" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" Padding="5" Click="Open_Button_Click">Open XML file</Button>
+            <ComboBox x:Name="Sort_Box" SelectionChanged="Gems_Box_SelectionChanged" MinWidth="280px" Margin="5" Padding="5"  HorizontalAlignment="Right" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                <ListBoxItem >Сортировка по имени</ListBoxItem>
+                <ListBoxItem>Сортировка по номеру телефона</ListBoxItem>
+            </ComboBox>
+        </StackPanel>
+        
+        <ListBox x:Name="Phones_List" Height="360"></ListBox>
+        
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            
+            <Button x:Name="Edit_button" Click="Edit_button_Click" Width="40px" Margin="0,0,10,0">Edit</Button>
+            <Button x:Name="Add_button" Click="Add_button_Click" Width="40px" Margin="0,0,10,0">Add</Button>
+            <Button x:Name="Del_button" Click="Del_button_Click" Width="40px" Margin="0,0,10,0">Delete</Button>
+            
+        </StackPanel>
+    </StackPanel>
+</Window>
