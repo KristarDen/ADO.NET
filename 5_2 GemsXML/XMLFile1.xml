@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Gems>
+  
+  <Gem>
+    <name>Изумруд</name>
+    <color>зелёный</color>
+    <transparency>не прозрачный</transparency>
+    <type>драгоценный</type>
+    <description>небольшой дешёвый камень</description>
+  </Gem>
+  
+  <Gem>
+    <name>Изумруд</name>
+    <color>зелёный</color>
+    <transparency>прозрачный</transparency>
+    <type>драгоценный</type>
+    <description>небольшой камень</description>
+  </Gem>
+  
+   <Gem>
+    <name>Брильянт</name>
+    <color>белый</color>
+    <transparency>прозрачный</transparency>
+    <type>драгоценный</type>
+    <description>маленький камешек</description>
+  </Gem>
+  
+  <Gem>
+    <name>Горный хрусталь</name>
+    <color>белый</color>
+    <transparency>не прозрачный</transparency>
+    <type>декоративный</type>
+    <description>небольшой гладкий камень</description>
+  </Gem>
+  
+  <Gem>
+    <name>Белый агат</name>
+    <color>белый</color>
+    <transparency>не прозрачный</transparency>
+    <type>декоративный</type>
+    <description>небольшой гладкий камень</description>
+  </Gem>
+  
+  <Gem>
+    <name>Пренит</name>
+    <color>зелёный</color>
+    <transparency>не прозрачный</transparency>
+    <type>декоративный</type>
+    <description>небольшой гладкий камень</description>
+  </Gem>
+
+</Gems>
+
