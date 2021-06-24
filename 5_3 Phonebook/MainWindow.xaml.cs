@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using System.IO;
+using System.Xml;
 using System.Data;
 
 namespace _5_3_Phonebook
@@ -72,12 +73,7 @@ namespace _5_3_Phonebook
             switch(Sort_Box.SelectedIndex)
             {
                 case 0:
-                    //phoneBook = phoneBook.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
-
                     Phones_List.Items.Clear();
-
-                    //SortedDictionary<string,string> sorted
-
                     var items = from pair in phoneBook
                                 orderby pair.Key ascending
                                 select pair;
@@ -89,12 +85,7 @@ namespace _5_3_Phonebook
                  break;
 
                 case 1:
-                    //phoneBook = phoneBook.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
-
                     Phones_List.Items.Clear();
-
-                    //SortedDictionary<string,string> sorted
-
                     var itemss = from pair in phoneBook
                                 orderby pair.Value ascending
                                 select pair;
@@ -105,39 +96,49 @@ namespace _5_3_Phonebook
                     }
                   break;
             }
-            /*
-            foreach (DataRow row in xml_dt.Rows)
-            {
-                if (String.Compare($"{row.ItemArray[1]}", $"{Gems_Box.SelectedItem}") == 0)
-                {
-                    string rowData = "";
-                    foreach (object cell in row.ItemArray)
-                    {
-                        rowData += $"{cell}" + "\t";
-                    }
-                    Gems_List.Items.Add(rowData);
-                }
-
-            }*/
-
-
-
 
         }
 
         private void Edit_button_Click(object sender, RoutedEventArgs e)
         {
+            
 
         }
 
         private void Add_button_Click(object sender, RoutedEventArgs e)
         {
+            string phone = "";
+            string name = "";
+
+            for(int i = 0; i < xml_dt.Rows.Count; i++)
+            {
+                if(xml_dt.Rows[i] == Phones_List.SelectedItem)
+                {
+                    name = $"{xml_dt.Rows[i].ItemArray[0]}";
+                    phone = $"{xml_dt.Rows[i].ItemArray[1]}";
+                }
+            }
+
+            Edit AddElemW = new Edit(name, phone);
+            AddElemW.Show();
+            AddElemW.Notify += Edit_Note;
+        }
+
+        private void Edit_Note(string[] newNote)
+        {
+            XmlWriter writer = XmlWriter.Create($"{fileName}");
+
+            writer.WriteStartElement("note");
+
+            writer.WriteElementString("name", $"{newNote[0]}");
+            writer.WriteElementString("phone", $"{newNote[1]}");
+
 
         }
 
         private void Del_button_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
     }
 }

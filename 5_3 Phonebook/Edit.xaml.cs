@@ -25,6 +25,9 @@ namespace _5_3_Phonebook
 
             _name = name;
             _number = number;
+
+            Name_text.Text = _name;
+            Number_text.Text = _number;
         }
 
         private string _name;
@@ -35,12 +38,18 @@ namespace _5_3_Phonebook
 
         private void Save_bt_Click(object sender, RoutedEventArgs e)
         {
+            _name = Name_text.Text;
+            _number = Number_text.Text;
 
+            string[] mess = new string[2] { "_name", "_number" };
+
+            Notify?.Invoke(mess);
+            DialogResult = true;
         }
 
         private void Cancel_bt_Click(object sender, RoutedEventArgs e)
         {
-
+            DialogResult = false;
         }
     }
 }
