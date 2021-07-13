@@ -41,15 +41,15 @@ namespace _5_3_Phonebook
             _name = Name_text.Text;
             _number = Number_text.Text;
 
-            string[] mess = new string[2] { "_name", "_number" };
+            string[] mess = new string[2] { $"{_name}", $"{_number}" };
 
             Notify?.Invoke(mess);
-            DialogResult = true;
+            this.Close();
         }
 
         private void Cancel_bt_Click(object sender, RoutedEventArgs e)
         {
-            DialogResult = false;
+            this.Close();
         }
     }
 }

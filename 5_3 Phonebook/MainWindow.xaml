@@ -5,19 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_5_3_Phonebook"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="400">
+        Title="MainWindow" Height="453.738" Width="400">
     <StackPanel Orientation="Vertical">
         <StackPanel Orientation="Horizontal">
             <Button x:Name="Open_Button" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" Padding="5" Click="Open_Button_Click">Open XML file</Button>
-            <ComboBox x:Name="Sort_Box" SelectionChanged="Gems_Box_SelectionChanged" MinWidth="280px" Margin="5" Padding="5"  HorizontalAlignment="Right" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
-                <ListBoxItem >Сортировка по имени</ListBoxItem>
-                <ListBoxItem>Сортировка по номеру телефона</ListBoxItem>
-            </ComboBox>
+            <Button x:Name="Sort_Button" Margin="5" Padding="5" Click="Sort_Button_Click">Sort</Button>
         </StackPanel>
         
         <ListBox x:Name="Phones_List" Height="360"></ListBox>
         
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
             
             <Button x:Name="Edit_button" Click="Edit_button_Click" Width="40px" Margin="0,0,10,0">Edit</Button>
             <Button x:Name="Add_button" Click="Add_button_Click" Width="40px" Margin="0,0,10,0">Add</Button>

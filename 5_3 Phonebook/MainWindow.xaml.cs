@@ -15,7 +15,9 @@ using System.Windows.Shapes;
 
 using System.IO;
 using System.Xml;
+using System.Xml.Linq;
 using System.Data;
+using System.Collections;
 
 namespace _5_3_Phonebook
 {
@@ -29,9 +31,10 @@ namespace _5_3_Phonebook
             InitializeComponent();
         }
 
-        DataSet xml_dataSet = new DataSet();
-        DataTable xml_dt;
         string fileName = "";
+
+        string selectedName;
+        string selectedPhone;
 
         Dictionary<string, string> phoneBook = new Dictionary<string, string>();
 
@@ -45,100 +48,167 @@ namespace _5_3_Phonebook
 
             // Show open file dialog box
             Nullable<bool> result = dlg.ShowDialog();
-
+            
             // Process open file dialog box results
             if (result == true)
             {
                 // Open document
                 fileName = dlg.FileName;
-                xml_dataSet.ReadXml(dlg.FileName);
-
-                xml_dt = xml_dataSet.Tables[0];
-
+               
             }
+            XDocument xdoc = XDocument.Load($"{fileName}");
+            XElement root = xdoc.Element("phonebook");
 
+            string name;
+            string phone;
 
-            foreach (DataRow row in xml_dt.Rows)
+            foreach (XElement xe in root.Elements("Note"))
             {
-                phoneBook.Add($"{row.ItemArray[0]}", $"{row.ItemArray[1]}");
-                Phones_List.Items.Add($"[{row.ItemArray[0]}, {row.ItemArray[1]}]");
-            }
+                name = xe.Element("name").Value;
+                phone = xe.Element("phone").Value;
+                selectedName = name;
+                selectedPhone = phone;
 
-
-        }
-
-        private void Gems_Box_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-            switch(Sort_Box.SelectedIndex)
-            {
-                case 0:
-                    Phones_List.Items.Clear();
-                    var items = from pair in phoneBook
-                                orderby pair.Key ascending
-                                select pair;
-
-                    foreach (var item in items)
-                    {
-                        Phones_List.Items.Add(item);
-                    }
-                 break;
-
-                case 1:
-                    Phones_List.Items.Clear();
-                    var itemss = from pair in phoneBook
-                                orderby pair.Value ascending
-                                select pair;
-
-                    foreach (var item in itemss)
-                    {
-                        Phones_List.Items.Add(item);
-                    }
-                  break;
+                Phones_List.Items.Add($"{name}|{phone}");
             }
 
         }
 
         private void Edit_button_Click(object sender, RoutedEventArgs e)
         {
-            
+            string phone = "";
+            string name = "";
+
+            XDocument xdoc = XDocument.Load($"{fileName}");
+            XElement root = xdoc.Element("phonebook");
+
+            foreach (XElement xe in root.Elements("Note"))
+            {
+
+                string Item = Phones_List.SelectedItem as string;
+                var selectedItem = Item.Split('|');
+
+                if (selectedItem[0] == xe.Element("name").Value && selectedItem[1] == xe.Element("phone").Value)
+                {
+                    name = xe.Element("name").Value;
+                    phone = xe.Element("phone").Value;
+
+                    selectedName = name;
+                    selectedPhone = phone;
+                    break;
+                }
+            }
+
+            xdoc.Save($"{fileName}");
+
+            Edit AddElemW = new Edit(name, phone);
+            AddElemW.Show();
+            AddElemW.Notify += Edit_Note;
 
         }
 
         private void Add_button_Click(object sender, RoutedEventArgs e)
         {
-            string phone = "";
-            string name = "";
-
-            for(int i = 0; i < xml_dt.Rows.Count; i++)
-            {
-                if(xml_dt.Rows[i] == Phones_List.SelectedItem)
-                {
-                    name = $"{xml_dt.Rows[i].ItemArray[0]}";
-                    phone = $"{xml_dt.Rows[i].ItemArray[1]}";
-                }
-            }
-
-            Edit AddElemW = new Edit(name, phone);
+            Edit AddElemW = new Edit("", "");
             AddElemW.Show();
-            AddElemW.Notify += Edit_Note;
+            AddElemW.Notify += Add_Note;
         }
 
         private void Edit_Note(string[] newNote)
         {
-            XmlWriter writer = XmlWriter.Create($"{fileName}");
+            XDocument xdoc = XDocument.Load($"{fileName}");
+            XElement root = xdoc.Element("phonebook");
 
-            writer.WriteStartElement("note");
-
-            writer.WriteElementString("name", $"{newNote[0]}");
-            writer.WriteElementString("phone", $"{newNote[1]}");
+            foreach (XElement xe in root.Elements("Note"))
+            {
 
 
+                if (selectedName == xe.Element("name").Value && selectedPhone == xe.Element("phone").Value)
+                {
+                    xe.Element("name").Value = newNote[0];
+                    xe.Element("phone").Value = newNote[1];
+
+                    break;
+                }
+            }
+
+            xdoc.Save($"{fileName}");
+            UpdateList();
+        }
+
+        private void Add_Note(string[] newNote)
+        {
+            XDocument xdoc = XDocument.Load($"{fileName}");
+            XElement root = xdoc.Element("phonebook");
+
+            root.Add(new XElement("Note", new XElement("name", $"{newNote[0]}"),
+                    new XElement("phone", $"{newNote[1]}")
+                    ));
+            xdoc.Save($"{fileName}");
+            UpdateList();
+        }
+
+        private void UpdateList()
+        {
+            Phones_List.Items.Clear();
+            XDocument xdoc = XDocument.Load($"{fileName}");
+            XElement root = xdoc.Element("phonebook");
+
+            string name;
+            string phone;
+
+            foreach (XElement xe in root.Elements("Note"))
+            {
+                name = xe.Element("name").Value;
+                phone = xe.Element("phone").Value;
+                selectedName = name;
+                selectedPhone = phone;
+
+                Phones_List.Items.Add($"{name}|{phone}");
+            }
         }
 
         private void Del_button_Click(object sender, RoutedEventArgs e)
         {
-            
+            string Item = Phones_List.SelectedItem as string;
+            var selectedItem = Item.Split('|');
+            Delete_Note(selectedItem);
+        }
+
+        private void Delete_Note(string[] newNote)
+        {
+            XDocument xdoc = XDocument.Load($"{fileName}");
+            XElement root = xdoc.Element("phonebook");
+
+            foreach (XElement xe in root.Elements("Note"))
+            {
+
+
+                if (newNote[0] == xe.Element("name").Value && newNote[1] == xe.Element("phone").Value)
+                {
+                    xe.Remove();
+                    break;
+                }
+            }
+
+            xdoc.Save($"{fileName}");
+            UpdateList();
+        }
+
+        private void Sort_Button_Click(object sender, RoutedEventArgs e)
+        {
+            ArrayList q = new ArrayList();
+            foreach (object o in Phones_List.Items)
+            { 
+                q.Add(o);
+            }
+             q.Sort();
+            Phones_List.Items.Clear();
+
+            foreach(object o in q)
+            {
+                Phones_List.Items.Add(o); 
+            }
         }
     }
 }
